@@ -48,13 +48,11 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 
 **过滤 HTTP 流：**
 
-![Wireshark 过滤 HTTP](https://github.com/qiangge1988/heiptv/blob/main/docs/wireshark-filter.png)
+![Wireshark 过滤 HTTP](docs/wireshark-filter.png)
 
 **追踪 HTTP 流：**
 
-![追踪 HTTP 流](https://github.com/qiangge1988/heiptv/blob/main/docs/wireshark-follow.png)
-
-> 如需添加截图，请将图片放入项目的 `docs/` 目录。
+![追踪 HTTP 流](docs/wireshark-follow.png)
 
 ## 快速开始
 
