@@ -34,8 +34,9 @@ python3 extract_auth.py capture.txt
 ### 3. 配置环境变量
 
 ```bash
-cp capture.env .env
-vim .env
+mkdir -p config output
+cp capture.env config/.env
+vim config/.env
 ```
 
 需要修改以下配置：
@@ -50,7 +51,13 @@ NET_SERVER=你的外网域名
 - `BOFANG_SERVER` - 组播转单播服务器 IP，本项目使用 [rtp2httpd](https://github.com/stackia/rtp2httpd) 实现组播转单播
 - `NET_SERVER` - 外网访问域名（无外网需求可不改）
 
-### 4. 启动服务
+### 4. 复制脚本到配置目录
+
+```bash
+cp iptv.py getlogo.py rtspproxy.py starttask.py extract_auth.py config/
+```
+
+### 5. 启动服务
 
 ```bash
 docker compose up -d
@@ -139,6 +146,13 @@ heiptv/
 ├── getlogo.py           # 频道 Logo 下载
 ├── rtspproxy.py         # RTSP 代理服务器
 ├── starttask.py         # 定时任务调度器
+├── config/              # 配置目录（挂载到容器 /app/config）
+│   ├── .env             # 环境变量配置（需手动创建）
+│   ├── iptv.py          # 脚本副本
+│   ├── getlogo.py       # 脚本副本
+│   ├── rtspproxy.py     # 脚本副本
+│   └── starttask.py     # 脚本副本
+├── output/              # 输出目录（挂载到容器 /app/output）
 └── docs/                # 文档截图
 ```
 

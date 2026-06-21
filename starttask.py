@@ -46,10 +46,10 @@ def run_task(name, script_path):
         lock.release()
 
 def playtask():
-    run_task('iptv', '/app/iptv.py')
+    run_task('iptv', '/app/config/iptv.py')
 
 def logotask():
-    run_task('logo', '/app/getlogo.py')
+    run_task('logo', '/app/config/getlogo.py')
 
 if __name__ == "__main__":
     import schedule
