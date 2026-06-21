@@ -17,7 +17,7 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/heiptv.git
+git clone https://github.com/qiangge1988/heiptv.git
 cd heiptv
 ```
 
