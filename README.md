@@ -4,7 +4,7 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 
 > 本项目基于恩山论坛帖子 [不要浪费家里免费的IPTV线路，回看真的很简单](https://www.right.com.cn/forum/thread-8438394-1-1.html) 中的 IPTV 获取器项目修改而来，原项目 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
 >
-> 此项目适合已经将 IPTV 融合到内网的网络环境使用，融合方法详见 [恩山论坛](https://www.right.com.cn/forum/)
+> 此项目适合已经将 IPTV 融合到内网的网络环境使用，融合方法详见：[河北联通，使用爱快路由器，将iptv融入内网，实现回看](https://www.right.com.cn/forum/thread-8454754-1-1.html)
 
 ## 功能
 
