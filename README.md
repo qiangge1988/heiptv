@@ -37,14 +37,16 @@ docker compose up -d
 
 ### 4. 访问服务
 
-| 服务 | 地址 |
-|------|------|
-| Web 目录 | http://your-ip:2000/ |
-| RTSP 代理 | rtsp://your-ip:554/ |
-| 内网直播 | http://your-ip:2000/LanLive.m3u |
-| 外网直播 | http://your-ip:2000/NetLive.m3u |
-| 港澳台 | http://your-ip:2000/got.m3u |
-| EPG 节目单 | http://your-ip:2000/PL.xml.gz |
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| Web 目录 | http://your-ip:2000/ | 文件列表 |
+| 组播源 | http://your-ip:2000/iptv.m3u | IGMP 组播地址 |
+| 组播转单播 | http://your-ip:2000/LanLive.m3u | 内网直播（组播转单播） |
+| 单播源 | http://your-ip:2000/LanReplay.m3u | 内网回看（单播） |
+| 外网直播 | http://your-ip:2000/NetLive.m3u | 外网直播 |
+| 外网回看 | http://your-ip:2000/NetReplay.m3u | 外网回看 |
+| 港澳台 | http://your-ip:2000/got.m3u | 港澳台直播源 |
+| EPG 节目单 | http://your-ip:2000/PL.xml.gz | 节目单（gzip） |
 
 ## 定时任务
 
