@@ -2,6 +2,8 @@
 
 Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo 下载、RTSP 代理等功能。
 
+> 本项目基于恩山论坛的 IPTV 获取器项目修改而来，原项目 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
+
 ## 功能
 
 - **iptv.py** - 从 IPTV 服务器获取频道列表和节目单，生成多种 M3U 文件
@@ -91,6 +93,23 @@ heiptv/
 | `USER_TOKEN` | 用户 Token |
 | `LAN_SERVER` | 内网服务器地址 |
 | `NET_SERVER` | 外网服务器域名 |
+
+## 改进说明
+
+本项目在原版基础上进行了以下改进：
+
+1. **配置管理** - 硬编码参数改为 `.env` 文件管理，便于维护
+2. **代码结构** - 使用面向对象重构，提高可维护性
+3. **并发下载** - Logo 下载改为多线程并发，提升效率
+4. **错误修复** - 修复了 IP 替换、RTSP 代理等多项 Bug
+5. **容器化** - 使用 Dockerfile + docker-compose 简化部署
+6. **进程管理** - 使用 supervisord 替代 shell 脚本管理进程
+
+## 参考与致谢
+
+- 原始项目来自 [恩山论坛](https://www.right.com.cn/forum/) IPTV 获取器
+- 原 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
+- 感谢原作者的辛勤开发和无私分享
 
 ## License
 
