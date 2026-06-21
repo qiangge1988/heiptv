@@ -19,6 +19,9 @@ COPY lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 WORKDIR /app
 
+# 复制 Python 脚本
+COPY iptv.py getlogo.py rtspproxy.py starttask.py extract_auth.py ./
+
 EXPOSE 8080 554
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
