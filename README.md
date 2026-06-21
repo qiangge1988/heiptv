@@ -32,6 +32,13 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
    python3 extract_auth.py capture.txt
    ```
 
+7. **修改配置** - 编辑生成的 `.env` 文件，将内网/外网服务器地址改为你的实际地址：
+   ```
+   LAN_SERVER=你的内网服务器IP
+   BOFANG_SERVER=你的播放服务器IP
+   NET_SERVER=你的外网域名
+   ```
+
 ### 抓包截图示例
 
 > 截图仅供参考，请以实际抓包环境为准。
