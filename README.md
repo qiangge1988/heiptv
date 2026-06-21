@@ -10,6 +10,61 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 - **getlogo.py** - 并发下载频道 Logo（5线程）
 - **rtspproxy.py** - RTSP 代理服务器，处理地址转换和流转发
 - **starttask.py** - 定时任务调度器（每天 01:00/13:00 执行）
+- **extract_auth.py** - 从抓包文件中自动提取鉴权参数
+
+## 快速开始
+
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/qiangge1988/heiptv.git
+cd heiptv
+```
+
+### 2. 获取鉴权参数
+
+使用 Wireshark 对 IPTV 机顶盒抓包，提取鉴权参数（详见下方 [抓包方法](#抓包方法)）：
+
+```bash
+python3 extract_auth.py capture.txt
+```
+
+### 3. 配置环境变量
+
+```bash
+cp capture.env .env
+vim .env
+```
+
+需要修改以下配置：
+
+```
+LAN_SERVER=部署本项目的IP地址
+BOFANG_SERVER=组播转单播服务器IP（rtp2httpd）
+NET_SERVER=你的外网域名
+```
+
+- `LAN_SERVER` - 部署本项目的服务器 IP
+- `BOFANG_SERVER` - 组播转单播服务器 IP，本项目使用 [rtp2httpd](https://github.com/stackia/rtp2httpd) 实现组播转单播
+- `NET_SERVER` - 外网访问域名（无外网需求可不改）
+
+### 4. 启动服务
+
+```bash
+docker compose up -d
+```
+
+### 5. 访问服务
+
+| 服务 | 地址 | 说明 |
+|------|------|------|
+| Web 目录 | http://your-ip:2000/ | 文件列表 |
+| 组播源 | http://your-ip:2000/iptv.m3u | IGMP 组播地址 |
+| 组播转单播 | http://your-ip:2000/LanLive.m3u | 内网直播（组播转单播） |
+| 单播源 | http://your-ip:2000/LanReplay.m3u | 内网回看（单播） |
+| 外网直播 | http://your-ip:2000/NetLive.m3u | 外网直播 |
+| 外网回看 | http://your-ip:2000/NetReplay.m3u | 外网回看 |
+| EPG 节目单 | http://your-ip:2000/PL.xml.gz | 节目单（gzip） |
 
 ## 抓包方法
 
@@ -32,15 +87,7 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
    python3 extract_auth.py capture.txt
    ```
 
-7. **修改配置** - 编辑生成的 `.env` 文件，将内网/外网服务器地址改为你的实际地址：
-   ```
-   LAN_SERVER=部署本项目的IP地址
-   BOFANG_SERVER=组播转单播服务器IP（rtp2httpd）
-   NET_SERVER=你的外网域名
-   ```
-   - `LAN_SERVER` - 部署本项目的服务器 IP
-   - `BOFANG_SERVER` - 组播转单播服务器 IP，本项目使用 [rtp2httpd](https://github.com/stackia/rtp2httpd) 实现组播转单播
-   - `NET_SERVER` - 外网访问域名（无外网需求可不改）
+7. **修改配置** - 编辑生成的 `.env` 文件，将内网/外网服务器地址改为你的实际地址
 
 ### 抓包截图示例
 
@@ -53,41 +100,6 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 **追踪 HTTP 流：**
 
 ![追踪 HTTP 流](docs/wireshark-follow.png)
-
-## 快速开始
-
-### 1. 克隆项目
-
-```bash
-git clone https://github.com/qiangge1988/heiptv.git
-cd heiptv
-```
-
-### 2. 配置环境变量
-
-```bash
-cp .env.example .env
-# 编辑 .env 文件，填入你的 IPTV 服务器信息和鉴权参数
-vim .env
-```
-
-### 3. 启动服务
-
-```bash
-docker compose up -d
-```
-
-### 4. 访问服务
-
-| 服务 | 地址 | 说明 |
-|------|------|------|
-| Web 目录 | http://your-ip:2000/ | 文件列表 |
-| 组播源 | http://your-ip:2000/iptv.m3u | IGMP 组播地址 |
-| 组播转单播 | http://your-ip:2000/LanLive.m3u | 内网直播（组播转单播） |
-| 单播源 | http://your-ip:2000/LanReplay.m3u | 内网回看（单播） |
-| 外网直播 | http://your-ip:2000/NetLive.m3u | 外网直播 |
-| 外网回看 | http://your-ip:2000/NetReplay.m3u | 外网回看 |
-| EPG 节目单 | http://your-ip:2000/PL.xml.gz | 节目单（gzip） |
 
 ## 定时任务
 
@@ -119,23 +131,36 @@ heiptv/
 ├── supervisord.conf     # 进程管理配置
 ├── lighttpd.conf        # Web 服务器配置
 ├── .env.example         # 环境变量模板
+├── .gitignore           # Git 忽略规则
+├── extract_auth.py      # 抓包参数提取脚本
 ├── iptv.py              # IPTV 频道和节目单获取
 ├── getlogo.py           # 频道 Logo 下载
 ├── rtspproxy.py         # RTSP 代理服务器
-└── starttask.py         # 定时任务调度器
+├── starttask.py         # 定时任务调度器
+└── docs/                # 文档截图
 ```
 
 ## 环境变量说明
 
 | 变量 | 说明 |
 |------|------|
-| `IPTV_SERVER` | IPTV 服务器地址 |
+| `IPTV_SERVER` | IPTV 服务器地址（自动提取） |
 | `RTSP_SERVER_IP` | RTSP 服务器 IP |
-| `USER_ID` | 用户 ID |
-| `AUTHENTICATOR` | 鉴权令牌 |
-| `USER_TOKEN` | 用户 Token |
-| `LAN_SERVER` | 内网服务器地址 |
-| `NET_SERVER` | 外网服务器域名 |
+| `USER_ID` | 用户 ID（自动提取） |
+| `AUTHENTICATOR` | 鉴权令牌（自动提取） |
+| `USER_TOKEN` | 用户 Token（自动提取） |
+| `STB_ID` | 机顶盒 ID（自动提取） |
+| `MAC` | 机顶盒 MAC 地址（自动提取） |
+| `STB_VERSION` | 机顶盒版本（自动提取） |
+| `AREA_ID` | 区域 ID（自动提取） |
+| `USER_TOKEN_SERVICE` | 服务入口 Token（自动提取） |
+| `TEMP_KEY` | 临时密钥（自动提取） |
+| `LAN_SERVER` | 内网服务器地址（需手动修改） |
+| `BOFANG_SERVER` | 组播转单播服务器 IP（需手动修改） |
+| `NET_SERVER` | 外网服务器域名（需手动修改） |
+| `WEB_PORT` | Web 服务端口，默认 2000 |
+| `LIVE_PORT` | 直播端口，默认 5140 |
+| `REPLAY_PORT` | 回看端口，默认 554 |
 
 ## 改进说明
 
@@ -147,6 +172,7 @@ heiptv/
 4. **错误修复** - 修复了 IP 替换、RTSP 代理等多项 Bug
 5. **容器化** - 使用 Dockerfile + docker-compose 简化部署
 6. **进程管理** - 使用 supervisord 替代 shell 脚本管理进程
+7. **参数提取** - 新增抓包参数自动提取脚本
 
 ## 免责声明
 
@@ -156,6 +182,7 @@ heiptv/
 
 - 原始项目来自 [恩山论坛 IPTV 获取器](https://www.right.com.cn/forum/thread-8438394-1-1.html)
 - 原 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
+- 组播转单播方案：[rtp2httpd](https://github.com/stackia/rtp2httpd)
 - 感谢原作者的辛勤开发和无私分享
 
 ## License
