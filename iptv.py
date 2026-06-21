@@ -53,18 +53,18 @@ class Config:
     NetReplay_name = 'NetReplay.m3u'
 
     # 鉴权参数
-    USER_ID = os.getenv('USER_ID', 'REDACTED_USER_ID')
+    USER_ID = os.getenv('USER_ID', '')
     AUTHENTICATOR = os.getenv('AUTHENTICATOR', '')
     USER_TOKEN = os.getenv('USER_TOKEN', '')
     STB_ID = os.getenv('STB_ID', '')
     MAC = os.getenv('MAC', '')
-    STB_VERSION = os.getenv('STB_VERSION', 'REDACTED_STB_VERSION')
-    AREA_ID = os.getenv('AREA_ID', 'REDACTED_AREA_ID')
+    STB_VERSION = os.getenv('STB_VERSION', '')
+    AREA_ID = os.getenv('AREA_ID', '')
 
     # 服务入口参数
     USER_TOKEN_SERVICE = os.getenv('USER_TOKEN_SERVICE', '')
     TEMP_KEY = os.getenv('TEMP_KEY', '')
-    STB_ID_SHORT = os.getenv('STB_ID_SHORT', 'REDACTED_STB_ID_SHORT')
+    STB_ID_SHORT = os.getenv('STB_ID_SHORT', '')
 
 class IPTVService:
     """IPTV服务类，封装核心业务逻辑"""

@@ -34,16 +34,16 @@ IPTVhost = os.getenv('IPTV_SERVER', 'http://REDACTED_IPTV_SERVER')
 logo_path = os.getenv('LOGO_PATH', r'/app/output/lighttpd/root/logo/')
 
 # 鉴权参数
-USER_ID = os.getenv('USER_ID', 'REDACTED_USER_ID')
+USER_ID = os.getenv('USER_ID', '')
 AUTHENTICATOR = os.getenv('AUTHENTICATOR', '')
 USER_TOKEN = os.getenv('USER_TOKEN', '')
 STB_ID = os.getenv('STB_ID', '')
 MAC = os.getenv('MAC', '')
-STB_VERSION = os.getenv('STB_VERSION', 'REDACTED_STB_VERSION')
-AREA_ID = os.getenv('AREA_ID', 'REDACTED_AREA_ID')
+STB_VERSION = os.getenv('STB_VERSION', '')
+AREA_ID = os.getenv('AREA_ID', '')
 USER_TOKEN_SERVICE = os.getenv('USER_TOKEN_SERVICE', '')
 TEMP_KEY = os.getenv('TEMP_KEY', '')
-STB_ID_SHORT = os.getenv('STB_ID_SHORT', 'REDACTED_STB_ID_SHORT')
+STB_ID_SHORT = os.getenv('STB_ID_SHORT', '')
 
 def create_session_with_retry(retries=3, backoff_factor=0.3):
     """创建带重试机制的session"""
