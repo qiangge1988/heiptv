@@ -105,6 +105,10 @@ heiptv/
 5. **容器化** - 使用 Dockerfile + docker-compose 简化部署
 6. **进程管理** - 使用 supervisord 替代 shell 脚本管理进程
 
+## 免责声明
+
+> 由于本人没有 RTSP 代理的需求，关于 `rtspproxy.py` 的部分仅供参考，需自行研究适配。
+
 ## 参考与致谢
 
 - 原始项目来自 [恩山论坛 IPTV 获取器](https://www.right.com.cn/forum/thread-8438394-1-1.html)
