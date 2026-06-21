@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # 安装系统依赖
 RUN apt-get update && apt-get install -y \
-    python3 python3-pip lighttpd supervisor curl \
+    python3 python3-pip lighttpd supervisor curl tzdata \
     && pip3 install python-dotenv requests schedule \
     && rm -rf /var/lib/apt/lists/* \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
