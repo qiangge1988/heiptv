@@ -2,8 +2,7 @@ version: '3'
 
 services:
   heiptv:
-    build: .
-    image: heiptv:v2
+    image: xinjiawei1/heiptv:4.1.38
     container_name: heiptv
     restart: always
     ports:
