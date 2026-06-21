@@ -11,15 +11,40 @@ Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo
 - **rtspproxy.py** - RTSP 代理服务器，处理地址转换和流转发
 - **starttask.py** - 定时任务调度器（每天 01:00/13:00 执行）
 
-## 抓包参数提取
+## 抓包方法
 
-抓包后用 `extract_auth.py` 自动提取鉴权参数：
+> 目前仅在河北联通 IPTV 环境下测试通过，其他地区请自行验证。
 
-```bash
-python3 extract_auth.py <抓包文件>
-```
+### 步骤
 
-会自动解析并生成 `.env` 文件，包含 IPTV 服务器地址、鉴权令牌等参数。
+1. **安装 Wireshark** - 从 [官网](https://www.wireshark.org/) 下载安装，具体使用方法请自行搜索学习
+
+2. **开始抓包** - 打开 Wireshark，选择正确的网卡开始捕获
+
+3. **过滤 HTTP 流** - 在显示过滤器中输入 `http`，过滤出 HTTP 协议的数据包
+
+4. **定位鉴权数据** - 在分组详情中搜索 `igmp`，找到包含 IGMP 关键字的那条 HTTP 记录，右键选择 **追踪 HTTP 流**
+
+5. **导出数据** - 将追踪到的 HTTP 流另存为 `.txt` 文件（如 `capture.txt`）
+
+6. **提取参数** - 运行提取脚本自动生成 `.env` 文件：
+   ```bash
+   python3 extract_auth.py capture.txt
+   ```
+
+### 抓包截图示例
+
+> 截图仅供参考，请以实际抓包环境为准。
+
+**过滤 HTTP 流：**
+
+![Wireshark 过滤 HTTP](https://github.com/qiangge1988/heiptv/blob/main/docs/wireshark-filter.png)
+
+**追踪 HTTP 流：**
+
+![追踪 HTTP 流](https://github.com/qiangge1988/heiptv/blob/main/docs/wireshark-follow.png)
+
+> 如需添加截图，请将图片放入项目的 `docs/` 目录。
 
 ## 快速开始
 
