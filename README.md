@@ -107,7 +107,7 @@ heiptv/
 
 ## 参考与致谢
 
-- 原始项目来自 [恩山论坛](https://www.right.com.cn/forum/) IPTV 获取器
+- 原始项目来自 [恩山论坛 IPTV 获取器](https://www.right.com.cn/forum/thread-8438394-1-1.html)
 - 原 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
 - 感谢原作者的辛勤开发和无私分享
 
