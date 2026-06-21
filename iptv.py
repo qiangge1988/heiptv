@@ -31,14 +31,14 @@ def setup_logging():
 class Config:
     """应用配置参数类"""
     # 服务器配置
-    IPTVServer = os.getenv('IPTV_SERVER', 'http://REDACTED_IPTV_SERVER')
-    RTSPServerIP = os.getenv('RTSP_SERVER_IP', 'REDACTED_RTSP_SERVER')
+    IPTVServer = os.getenv('IPTV_SERVER', '')
+    RTSPServerIP = os.getenv('RTSP_SERVER_IP', '')
     LivePort = os.getenv('LIVE_PORT', '5140')
     ReplayPort = os.getenv('REPLAY_PORT', '554')
     WebPort = os.getenv('WEB_PORT', '2000')
-    LanServer = os.getenv('LAN_SERVER', 'REDACTED_LAN_SERVER')
-    BofangServer = os.getenv('BOFANG_SERVER', 'REDACTED_BOFANG_SERVER')
-    NetServer = os.getenv('NET_SERVER', 'REDACTED_NET_SERVER')
+    LanServer = os.getenv('LAN_SERVER', '')
+    BofangServer = os.getenv('BOFANG_SERVER', '')
+    NetServer = os.getenv('NET_SERVER', '')
 
     # 文件路径配置
     web_path = os.getenv('WEB_PATH', r'/app/output/lighttpd/root/')

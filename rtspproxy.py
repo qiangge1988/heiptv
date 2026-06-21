@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env'))
 
 # 配置目标服务器的地址和端口
-server_address = os.getenv('RTSP_PROXY_TARGET', 'REDACTED_PROXY_TARGET')
-bad_server = os.getenv('RTSP_PROXY_BAD_TARGET', 'REDACTED_BAD_TARGET')
+server_address = os.getenv('RTSP_PROXY_TARGET', '')
+bad_server = os.getenv('RTSP_PROXY_BAD_TARGET', '')
 server_port = int(os.getenv('RTSP_PROXY_PORT', '554'))
 
 #从数据中提取域名或IP地址
