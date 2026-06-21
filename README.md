@@ -2,7 +2,7 @@
 
 Docker 化的 IPTV 工具集，包含频道列表获取、节目单生成、Logo 下载、RTSP 代理等功能。
 
-> 本项目基于恩山论坛的 IPTV 获取器项目修改而来，原项目 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
+> 本项目基于恩山论坛帖子 [不要浪费家里免费的IPTV线路，回看真的很简单](https://www.right.com.cn/forum/thread-8438394-1-1.html) 中的 IPTV 获取器项目修改而来，原项目 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
 
 ## 功能
 
