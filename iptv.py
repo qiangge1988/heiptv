@@ -41,7 +41,7 @@ class Config:
     NetServer = os.getenv('NET_SERVER', 'REDACTED_NET_SERVER')
 
     # 文件路径配置
-    web_path = os.getenv('WEB_PATH', r'/app/output/lighttps/root/')
+    web_path = os.getenv('WEB_PATH', r'/app/output/lighttpd/root/')
     playlist = 'PL.xml'
     playlistgz = 'PL.xml.gz'
 

@@ -31,7 +31,7 @@ def log_error(message):
 
 # 从环境变量读取配置
 IPTVhost = os.getenv('IPTV_SERVER', 'http://REDACTED_IPTV_SERVER')
-logo_path = os.getenv('LOGO_PATH', r'/app/output/lighttps/root/logo/')
+logo_path = os.getenv('LOGO_PATH', r'/app/output/lighttpd/root/logo/')
 
 # 鉴权参数
 USER_ID = os.getenv('USER_ID', 'REDACTED_USER_ID')
