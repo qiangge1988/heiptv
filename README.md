@@ -45,7 +45,6 @@ docker compose up -d
 | 单播源 | http://your-ip:2000/LanReplay.m3u | 内网回看（单播） |
 | 外网直播 | http://your-ip:2000/NetLive.m3u | 外网直播 |
 | 外网回看 | http://your-ip:2000/NetReplay.m3u | 外网回看 |
-| 港澳台 | http://your-ip:2000/got.m3u | 港澳台直播源 |
 | EPG 节目单 | http://your-ip:2000/PL.xml.gz | 节目单（gzip） |
 
 ## 定时任务
