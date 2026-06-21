@@ -63,7 +63,7 @@ cp iptv.py getlogo.py rtspproxy.py starttask.py extract_auth.py config/
 docker compose up -d
 ```
 
-### 5. 访问服务
+### 6. 访问服务
 
 | 服务 | 地址 | 说明 |
 |------|------|------|
@@ -189,6 +189,8 @@ heiptv/
 5. **容器化** - 使用 Dockerfile + docker-compose 简化部署
 6. **进程管理** - 使用 supervisord 替代 shell 脚本管理进程
 7. **参数提取** - 新增抓包参数自动提取脚本
+8. **镜像优化** - 使用 Ubuntu 22.04 基础镜像，脚本通过 volume 挂载便于更新
+9. **路径修复** - 修复了 `lighttps` 拼写错误为 `lighttpd`
 
 ## 免责声明
 
