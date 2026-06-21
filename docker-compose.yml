@@ -10,6 +10,5 @@ services:
     volumes:
       - /mnt/Configs/IPTV/config:/app/config
       - /mnt/Configs/IPTV/output:/app/output
-      - /mnt/Configs/IPTV/config/lighttpd.conf:/etc/lighttpd/lighttpd.conf:ro
     environment:
       - TZ=Asia/Shanghai
