@@ -180,7 +180,7 @@ heiptv/
 
 ## 参考与致谢
 
-- 原始项目来自 [恩山论坛 IPTV 获取器](https://www.right.com.cn/forum/thread-8438394-1-1.html)
+- 原始项目来自恩山论坛：[不要浪费家里免费的IPTV线路，回看真的很简单](https://www.right.com.cn/forum/thread-8438394-1-1.html)
 - 原 Docker 镜像：`xinjiawei1/heiptv:4.1.38`
 - 组播转单播方案：[rtp2httpd](https://github.com/stackia/rtp2httpd)
 - 感谢原作者的辛勤开发和无私分享
