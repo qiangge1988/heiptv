@@ -32,34 +32,43 @@ def replaceip(response,ipv4_address):
     return tosend.encode('utf-8')
 
 #接收服务器数据处理后转发到客户端
-def handle_StoC(client_socket,server_socket,clientaddress):
-    #处理RTP流的转发
+def handle_StoC(client_socket, server_socket, clientaddress, stop_event):
+    """处理RTP流的转发"""
     print(f"开始转发数据")
     try:
-        while True:
-            data = server_socket.recv(4096)
-            if not data:
-                break
-            client_socket.sendall(data)
-    except Exception as e:
-        server_socket.close()
-        client_socket.close()
-        print(f"[!]收发错误！关闭连接: {e}")
-
-#接收客户端请求数据处理后转发到服务器
-def handle_CtoS(client_socket,server_socket,serveraddress):
-    #处理RTP流的转发
-    print(f"开始转发数据")
-    try:
-        while True:
-            data = client_socket.recv(4096)
+        while not stop_event.is_set():
+            client_socket.settimeout(1.0)
+            try:
+                data = client_socket.recv(4096)
+            except socket.timeout:
+                continue
             if not data:
                 break
             server_socket.sendall(data)
     except Exception as e:
-        server_socket.close()
-        client_socket.close()
         print(f"[!]收发错误！关闭连接: {e}")
+    finally:
+        client_socket.close()
+        server_socket.close()
+
+def handle_CtoS(client_socket, server_socket, serveraddress, stop_event):
+    """处理RTP流的转发"""
+    print(f"开始转发数据")
+    try:
+        while not stop_event.is_set():
+            server_socket.settimeout(1.0)
+            try:
+                data = server_socket.recv(4096)
+            except socket.timeout:
+                continue
+            if not data:
+                break
+            client_socket.sendall(data)
+    except Exception as e:
+        print(f"[!]收发错误！关闭连接: {e}")
+    finally:
+        client_socket.close()
+        server_socket.close()
 
 #生成二次握手请求(将OPTIONS请求变为DESCRIBE请求)
 def describe(firstrequest):
@@ -161,12 +170,16 @@ def handle_entrance(client_socket):
                 break
         ##数据转发
         if server_socket and clientaddress:
-            server_thread = threading.Thread(target=handle_StoC, args=(client_socket,server_socket,clientaddress))
+            stop_event = threading.Event()
+            server_thread = threading.Thread(target=handle_StoC, args=(client_socket, server_socket, clientaddress, stop_event))
             server_thread.daemon = True
             server_thread.start()
-            client_thread = threading.Thread(target=handle_CtoS, args=(client_socket,server_socket,targetaddress))
+            client_thread = threading.Thread(target=handle_CtoS, args=(client_socket, server_socket, targetaddress, stop_event))
             client_thread.daemon = True
             client_thread.start()
+            # 等待两个线程完成
+            server_thread.join()
+            client_thread.join()
     except Exception as e:
         # 处理其他 socket 相关的异常
         print(f"连接失败: {e}")
