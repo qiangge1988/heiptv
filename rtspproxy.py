@@ -1,6 +1,7 @@
 import re
 import socket
 import threading
+import time
 import os
 from dotenv import load_dotenv
 
@@ -31,29 +32,10 @@ def replaceip(response,ipv4_address):
     tosend = re.sub(pattern,"rtsp://"+ipv4_address,tosend)
     return tosend.encode('utf-8')
 
-#接收服务器数据处理后转发到客户端
-def handle_StoC(client_socket, server_socket, clientaddress, stop_event):
-    """处理RTP流的转发"""
-    print(f"开始转发数据")
-    try:
-        while not stop_event.is_set():
-            client_socket.settimeout(1.0)
-            try:
-                data = client_socket.recv(4096)
-            except socket.timeout:
-                continue
-            if not data:
-                break
-            server_socket.sendall(data)
-    except Exception as e:
-        print(f"[!]收发错误！关闭连接: {e}")
-    finally:
-        client_socket.close()
-        server_socket.close()
-
-def handle_CtoS(client_socket, server_socket, serveraddress, stop_event):
-    """处理RTP流的转发"""
-    print(f"开始转发数据")
+# 数据转发：Server -> Client
+def handle_StoC(server_socket, client_socket, stop_event):
+    """从服务端接收数据，转发给客户端"""
+    print("开始转发服务端数据到客户端")
     try:
         while not stop_event.is_set():
             server_socket.settimeout(1.0)
@@ -63,12 +45,32 @@ def handle_CtoS(client_socket, server_socket, serveraddress, stop_event):
                 continue
             if not data:
                 break
-            client_socket.sendall(data)
+            try:
+                client_socket.sendall(data)
+            except (BrokenPipe, ConnectionResetError):
+                break
     except Exception as e:
-        print(f"[!]收发错误！关闭连接: {e}")
-    finally:
-        client_socket.close()
-        server_socket.close()
+        print(f"[!]S->C 转发错误: {e}")
+
+# 数据转发：Client -> Server
+def handle_CtoS(client_socket, server_socket, stop_event):
+    """从客户端接收数据，转发给服务端"""
+    print("开始转发客户端数据到服务端")
+    try:
+        while not stop_event.is_set():
+            client_socket.settimeout(1.0)
+            try:
+                data = client_socket.recv(4096)
+            except socket.timeout:
+                continue
+            if not data:
+                break
+            try:
+                server_socket.sendall(data)
+            except (BrokenPipe, ConnectionResetError):
+                break
+    except Exception as e:
+        print(f"[!]C->S 转发错误: {e}")
 
 #生成二次握手请求(将OPTIONS请求变为DESCRIBE请求)
 def describe(firstrequest):
@@ -171,15 +173,27 @@ def handle_entrance(client_socket):
         ##数据转发
         if server_socket and clientaddress:
             stop_event = threading.Event()
-            server_thread = threading.Thread(target=handle_StoC, args=(client_socket, server_socket, clientaddress, stop_event))
-            server_thread.daemon = True
-            server_thread.start()
-            client_thread = threading.Thread(target=handle_CtoS, args=(client_socket, server_socket, targetaddress, stop_event))
-            client_thread.daemon = True
-            client_thread.start()
-            # 等待两个线程完成
-            server_thread.join()
-            client_thread.join()
+            # Server -> Client 线程
+            s2c_thread = threading.Thread(target=handle_StoC, args=(server_socket, client_socket, stop_event))
+            s2c_thread.daemon = True
+            s2c_thread.start()
+            # Client -> Server 线程
+            c2s_thread = threading.Thread(target=handle_CtoS, args=(client_socket, server_socket, stop_event))
+            c2s_thread.daemon = True
+            c2s_thread.start()
+            # 等待任一线程结束，然后通知另一线程停止
+            while s2c_thread.is_alive() and c2s_thread.is_alive():
+                time.sleep(0.5)
+            stop_event.set()
+            # 统一在主线程关闭 socket
+            try:
+                client_socket.close()
+            except Exception:
+                pass
+            try:
+                server_socket.close()
+            except Exception:
+                pass
     except Exception as e:
         # 处理其他 socket 相关的异常
         print(f"连接失败: {e}")
