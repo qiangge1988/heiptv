@@ -1,0 +1,11 @@
+[project]
+sub_id = "4988cfe4"
+name = "heiptv"
+requires = ["python-3.10"]
+project_type = ""
+
+[preview]
+preview_enable = "disabled"
+
+[subprojects]
+path = ["."]
