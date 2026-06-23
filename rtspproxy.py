@@ -129,6 +129,7 @@ def nonsession(response):
 #处理客户端的请求与服务器的响应
 def handle_entrance(client_socket):
     server_socket = None
+    stop_event = None
     try:
         #默认目标地址为默认的服务器地址
         targetaddress = server_address
@@ -197,6 +198,8 @@ def handle_entrance(client_socket):
     except Exception as e:
         # 处理其他 socket 相关的异常
         print(f"连接失败: {e}")
+        if stop_event:
+            stop_event.set()
         if server_socket:
             server_socket.close()
         client_socket.close()
